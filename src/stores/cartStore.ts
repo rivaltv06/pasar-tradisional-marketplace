@@ -8,6 +8,7 @@ export type CartItem = {
   price: number
   unit: string
   imageUrl?: string
+  stockQtySnapshot?: number
   qty: number
   notes?: string
 }
@@ -28,18 +29,27 @@ export const useCartStore = create<CartState>((set, get) => ({
   addProduct: (product, qty = 1) => {
     const state = get()
     const nextQty = Math.max(1, Math.floor(qty))
+    const maxQty = Math.max(0, Math.floor(product.stockQty))
     if (state.stallId && state.stallId !== product.stallId) {
       return { ok: false, error: 'Keranjang hanya untuk 1 kios. Kosongkan dulu untuk belanja di kios lain.' }
     }
+    if (maxQty <= 0) return { ok: false, error: 'Stok habis.' }
     const exists = state.items.find((it) => it.productId === product.id)
     if (exists) {
+      const desired = exists.qty + nextQty
+      const clamped = Math.min(desired, maxQty)
+      if (clamped === exists.qty) return { ok: false, error: `Stok tersisa ${maxQty} ${product.unit}.` }
       set({
         items: state.items.map((it) =>
-          it.productId === product.id ? { ...it, qty: it.qty + nextQty } : it,
+          it.productId === product.id
+            ? { ...it, qty: clamped, stockQtySnapshot: maxQty }
+            : it,
         ),
       })
+      if (clamped !== desired) return { ok: false, error: `Stok tersisa ${maxQty} ${product.unit}.` }
       return { ok: true }
     }
+    const initialQty = Math.min(nextQty, maxQty)
     set({
       stallId: state.stallId ?? product.stallId,
       items: [
@@ -51,16 +61,23 @@ export const useCartStore = create<CartState>((set, get) => ({
           price: product.price,
           unit: product.unit,
           imageUrl: product.imageUrl,
-          qty: nextQty,
+          stockQtySnapshot: maxQty,
+          qty: initialQty,
         },
       ],
     })
+    if (initialQty !== nextQty) return { ok: false, error: `Stok tersisa ${maxQty} ${product.unit}.` }
     return { ok: true }
   },
   setQty: (productId, qty) => {
-    const next = Math.max(1, Math.floor(qty))
+    const raw = Math.max(1, Math.floor(qty))
     set((s) => ({
-      items: s.items.map((it) => (it.productId === productId ? { ...it, qty: next } : it)),
+      items: s.items.map((it) => {
+        if (it.productId !== productId) return it
+        const max = it.stockQtySnapshot
+        const next = typeof max === 'number' && max > 0 ? Math.min(raw, max) : raw
+        return { ...it, qty: next }
+      }),
     }))
   },
   setNotes: (productId, notes) => {

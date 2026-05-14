@@ -69,12 +69,18 @@ export default function StallDetail() {
         </div>
       </div>
 
-      <div className="grid gap-4 sm:grid-cols-2 md:grid-cols-4">
-        {data.products.map((p) => (
-          <ProductCard key={p.id} product={p} />
-        ))}
-      </div>
+      {data.products.length ? (
+        <div className="grid gap-4 sm:grid-cols-2 md:grid-cols-4">
+          {data.products.map((p) => (
+            <ProductCard key={p.id} product={p} />
+          ))}
+        </div>
+      ) : (
+        <div className="paper grain rounded-[32px] p-10 text-center">
+          <div className="font-display text-3xl">Belum ada produk</div>
+          <div className="mt-2 text-sm text-[hsl(var(--muted))]">Coba cek lagi nanti atau jelajah produk lain.</div>
+        </div>
+      )}
     </div>
   )
 }
-

@@ -1,6 +1,7 @@
 import type { Product } from '@/api/types'
 import { formatRupiah } from '@/components/Price'
 import { Button } from '@/components/ui/Button'
+import { categoryLabel } from '@/constants/categories'
 import { useCartStore } from '@/stores/cartStore'
 import { Plus, ShoppingBasket } from 'lucide-react'
 import { Link } from 'react-router-dom'
@@ -29,7 +30,7 @@ export function ProductCard({ product }: { product: Product }) {
           <div className="flex items-start justify-between gap-3">
             <div>
               <div className="font-display text-[18px] leading-tight">{product.name}</div>
-              <div className="mt-1 text-sm text-[hsl(var(--muted))]">{product.categoryId}</div>
+              <div className="mt-1 text-sm text-[hsl(var(--muted))]">{categoryLabel(product.categoryId)}</div>
             </div>
             <div className="shrink-0 rounded-2xl bg-[hsl(var(--ink)_/_0.04)] px-3 py-2 text-right">
               <div className="text-sm font-semibold">{formatRupiah(product.price)}</div>
@@ -57,4 +58,3 @@ export function ProductCard({ product }: { product: Product }) {
     </div>
   )
 }
-

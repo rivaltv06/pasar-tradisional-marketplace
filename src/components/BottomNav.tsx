@@ -46,7 +46,17 @@ export function BottomNav() {
           ) : null}
         </NavLink>
         <NavLink
-          to={user ? (user.role === 'seller' ? '/pedagang' : '/pesanan') : '/masuk'}
+          to={
+            user
+              ? user.role === 'seller'
+                ? '/pedagang'
+                : user.role === 'courier'
+                  ? '/mitra'
+                  : user.role === 'admin'
+                    ? '/admin/dashboard'
+                    : '/pesanan'
+              : '/masuk'
+          }
           className={({ isActive }) =>
             `${linkBase} ${isActive ? 'bg-[hsl(var(--ink)_/_0.06)] text-[hsl(var(--ink))]' : 'text-[hsl(var(--muted))]'}`
           }
@@ -58,4 +68,3 @@ export function BottomNav() {
     </nav>
   )
 }
-

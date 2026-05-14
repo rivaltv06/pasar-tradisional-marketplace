@@ -1,8 +1,14 @@
 export function formatRupiah(value: number): string {
   try {
-    return new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR' }).format(value)
+    if (!Number.isFinite(value)) return 'Rp 0'
+    return new Intl.NumberFormat('id-ID', {
+      style: 'currency',
+      currency: 'IDR',
+      maximumFractionDigits: 0,
+      minimumFractionDigits: 0,
+    }).format(value)
   } catch {
+    if (!Number.isFinite(value)) return 'Rp 0'
     return `Rp ${Math.round(value).toLocaleString('id-ID')}`
   }
 }
-

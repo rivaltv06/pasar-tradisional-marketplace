@@ -7,6 +7,7 @@ import type {
   UserRole,
   UserRow,
 } from './store.js'
+import { defaultSettings } from './store.js'
 
 function nowIso(): string {
   return new Date().toISOString()
@@ -43,12 +44,55 @@ function makeUser(params: {
 }
 
 export function seedDb(): Db {
+  const isProd = process.env.NODE_ENV === 'production'
+  const adminName = process.env.BOOTSTRAP_ADMIN_NAME
+  const adminEmail = process.env.BOOTSTRAP_ADMIN_EMAIL
+  const adminPassword = process.env.BOOTSTRAP_ADMIN_PASSWORD
+
+  if (isProd && (!adminName || !adminEmail || !adminPassword)) {
+    throw new Error('BOOTSTRAP_ADMIN_NAME/EMAIL/PASSWORD wajib diisi untuk production')
+  }
+
   const admin = makeUser({
     role: 'admin',
-    name: 'Admin Pasar',
-    email: 'admin@pasar.local',
-    password: 'demo12345',
+    name: adminName || 'Admin Belanjaku',
+    email: adminEmail || 'admin@pasar.local',
+    password: adminPassword || 'demo12345',
   })
+
+  if (isProd) {
+    const markets: MarketRow[] = [
+      {
+        id: newId('mkt'),
+        name: 'Belanjaku Tasikmalaya',
+        city: 'Tasikmalaya',
+        address: 'Rajapolah, Tasikmalaya, Jawa Barat, Indonesia',
+      },
+    ]
+
+    const stalls: StallRow[] = [
+      {
+        id: newId('stl'),
+        sellerUserId: admin.id,
+        marketId: markets[0].id,
+        name: 'Belanjaku',
+        description: 'Belanja kebutuhan harian. Delivery Tasikmalaya.',
+        isActive: true,
+        ratingAvg: 0,
+      },
+    ]
+
+    return {
+      users: [admin],
+      markets,
+      stalls,
+      products: [],
+      orders: [],
+      orderItems: [],
+      settings: defaultSettings(),
+      mitraApplications: [],
+    }
+  }
 
   const seller = makeUser({
     role: 'seller',
@@ -150,6 +194,7 @@ export function seedDb(): Db {
     products,
     orders: [],
     orderItems: [],
+    settings: defaultSettings(),
+    mitraApplications: [],
   }
 }
-

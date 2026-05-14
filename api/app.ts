@@ -10,7 +10,9 @@ import express, {
 import cors from 'cors'
 import dotenv from 'dotenv'
 import authRoutes from './routes/auth.js'
+import adminRoutes from './routes/admin.js'
 import catalogRoutes from './routes/catalog.js'
+import mitraRoutes from './routes/mitra.js'
 import orderRoutes from './routes/orders.js'
 import sellerRoutes from './routes/seller.js'
 import { loadDb } from './store.js'
@@ -30,7 +32,9 @@ app.use(express.urlencoded({ extended: true, limit: '10mb' }))
  * API Routes
  */
 app.use('/api/auth', authRoutes)
+app.use('/api/admin', adminRoutes)
 app.use('/api', catalogRoutes)
+app.use('/api', mitraRoutes)
 app.use('/api', orderRoutes)
 app.use('/api', sellerRoutes)
 

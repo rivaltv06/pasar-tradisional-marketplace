@@ -2,36 +2,12 @@ import { apiGet } from '@/api/http'
 import type { Order, OrderItem } from '@/api/types'
 import { formatRupiah } from '@/components/Price'
 import { Button } from '@/components/ui/Button'
+import { labelFulfillment, labelOrderStatus } from '@/lib/orderLabels'
 import { useAuthStore } from '@/stores/authStore'
 import { useEffect, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 
 type Row = { order: Order; items: OrderItem[] }
-
-function labelStatus(status: string): string {
-  switch (status) {
-    case 'created':
-      return 'Menunggu pembayaran'
-    case 'awaiting_payment':
-      return 'Menunggu pembayaran'
-    case 'paid':
-      return 'Dibayar'
-    case 'confirmed':
-      return 'Dikonfirmasi'
-    case 'processing':
-      return 'Diproses'
-    case 'ready_for_pickup':
-      return 'Siap diambil'
-    case 'out_for_delivery':
-      return 'Dikirim'
-    case 'completed':
-      return 'Selesai'
-    case 'cancelled':
-      return 'Dibatalkan'
-    default:
-      return status
-  }
-}
 
 export default function Orders() {
   const navigate = useNavigate()
@@ -98,10 +74,10 @@ export default function Orders() {
                 </div>
                 <div className="flex items-center gap-2">
                   <span className="rounded-full bg-[hsl(var(--leaf)_/_0.10)] px-3 py-1 text-sm text-[hsl(var(--leaf))]">
-                    {labelStatus(r.order.status)}
+                    {labelOrderStatus(r.order.status)}
                   </span>
                   <span className="rounded-full bg-[hsl(var(--ink)_/_0.05)] px-3 py-1 text-sm text-[hsl(var(--muted))]">
-                    {r.order.fulfillment === 'pickup' ? 'Pickup' : 'Delivery'}
+                    {labelFulfillment(r.order.fulfillment)}
                   </span>
                 </div>
               </div>

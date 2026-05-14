@@ -1,5 +1,5 @@
 import { apiGet } from '@/api/http'
-import type { Product } from '@/api/types'
+import type { Product, PromoSettings } from '@/api/types'
 import { CategoryPills } from '@/components/CategoryPills'
 import { ProductCard } from '@/components/ProductCard'
 import { Button } from '@/components/ui/Button'
@@ -14,6 +14,14 @@ export default function Home() {
   const [products, setProducts] = useState<Product[]>([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
+  const [promo, setPromo] = useState<PromoSettings | null>(null)
+
+  const productsQuery = useMemo(() => {
+    const qs = new URLSearchParams()
+    qs.set('limit', '24')
+    if (categoryId) qs.set('categoryId', categoryId)
+    return `/api/products?${qs.toString()}`
+  }, [categoryId])
 
   useEffect(() => {
     let cancelled = false
@@ -21,7 +29,7 @@ export default function Home() {
       try {
         setLoading(true)
         setError(null)
-        const p = await apiGet<Product[]>('/api/products')
+        const p = await apiGet<Product[]>(productsQuery)
         if (cancelled) return
         setProducts(p)
       } catch (e) {
@@ -34,33 +42,85 @@ export default function Home() {
     return () => {
       cancelled = true
     }
+  }, [productsQuery])
+
+  useEffect(() => {
+    let cancelled = false
+    ;(async () => {
+      try {
+        const p = await apiGet<PromoSettings>('/api/promo')
+        if (cancelled) return
+        setPromo(p)
+      } catch {
+        if (cancelled) return
+        setPromo(null)
+      }
+    })()
+    return () => {
+      cancelled = true
+    }
   }, [])
 
   const filtered = useMemo(() => {
     let p = products
-    if (categoryId) p = p.filter((it) => it.categoryId === categoryId)
     if (q.trim()) {
       const qq = q.trim().toLowerCase()
       p = p.filter((it) => it.name.toLowerCase().includes(qq))
     }
     return p.slice(0, 8)
-  }, [categoryId, products, q])
+  }, [products, q])
 
   return (
     <div className="space-y-8">
       <section className="paper grain overflow-hidden rounded-[32px] p-6 md:p-10">
         <div className="grid gap-8 md:grid-cols-[1.2fr_0.8fr] md:items-end">
           <div>
+            {promo?.enabled ? (
+              <div className="mb-5 overflow-hidden rounded-[28px] border border-[hsl(var(--ink)_/_0.10)] bg-[hsl(var(--bg)_/_0.65)]">
+                <div className="relative p-5">
+                  {promo.imageUrl ? (
+                    <img
+                      src={promo.imageUrl}
+                      alt={promo.title}
+                      className="absolute inset-0 h-full w-full object-cover opacity-35"
+                    />
+                  ) : null}
+                  <div className="absolute inset-0 opacity-90" style={{ background: 'radial-gradient(900px 260px at 10% 20%, hsl(var(--turmeric) / 0.55), transparent 60%), radial-gradient(900px 260px at 90% 20%, hsl(var(--chili) / 0.35), transparent 60%), linear-gradient(180deg, hsl(var(--leaf) / 0.12), transparent 55%)' }} />
+                  <div className="relative">
+                    <div className="text-xs font-semibold tracking-wide text-[hsl(var(--leaf))]">PROMO</div>
+                    <div className="mt-1 font-display text-2xl leading-tight text-[hsl(var(--ink))]">{promo.title}</div>
+                    <div className="mt-1 text-sm text-[hsl(var(--muted))]">{promo.subtitle}</div>
+                    <div className="mt-4">
+                      <Link
+                        to={
+                          promo.ctaCategoryId
+                            ? `/jelajah?categoryId=${encodeURIComponent(promo.ctaCategoryId)}`
+                            : '/jelajah'
+                        }
+                        className="inline-flex items-center gap-2 rounded-full bg-[hsl(var(--leaf))] px-4 py-2 text-sm text-[hsl(var(--bg))]"
+                      >
+                        {promo.ctaLabel}
+                        <ArrowRight size={16} />
+                      </Link>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            ) : null}
             <div className="inline-flex items-center gap-2 rounded-full bg-[hsl(var(--leaf)_/_0.10)] px-3 py-1 text-xs text-[hsl(var(--leaf))]">
               <MapPin size={14} />
-              <span>Belanja bahan pokok dari kios terdekat</span>
+              <span>
+                {promo?.enabled
+                  ? `Delivery Tasikmalaya • Gratis ongkir min Rp ${promo.minItemsAmount.toLocaleString('id-ID')}`
+                  : 'Delivery Tasikmalaya (ongkir flat Rp 15.000)'}
+              </span>
             </div>
             <h1 className="font-display mt-4 text-4xl leading-[1.05] md:text-6xl">
               Belanjaku: kebutuhan harian, tinggal pesan.
             </h1>
             <p className="mt-4 max-w-xl text-[15px] text-[hsl(var(--muted))] md:text-base">
-              Temukan sayur, bumbu, buah, dan kebutuhan harian. Pesan pickup atau delivery, lalu lakukan
-              pembayaran ke Belanjaku terlebih dahulu agar pesanan diproses.
+              Temukan sayur, bumbu, buah, dan kebutuhan harian. Pesan untuk diantar, lalu lakukan pembayaran ke
+              Belanjaku terlebih dahulu agar pesanan diproses.
             </p>
 
             <div className="mt-6 flex flex-col gap-3 sm:flex-row sm:items-center">
@@ -89,19 +149,19 @@ export default function Home() {
             </div>
           </div>
 
-          <div className="grid gap-3 rounded-[28px] bg-[hsl(var(--ink)_/_0.03)] p-4 md:p-5">
-            <div className="text-sm text-[hsl(var(--muted))]">Coba akun demo</div>
-            <div className="rounded-2xl bg-[hsl(var(--bg)_/_0.7)] p-4">
-              <div className="font-display text-lg">Pembeli</div>
-              <div className="mt-1 text-sm text-[hsl(var(--muted))]">HP: 081200000001 • Pass: demo12345</div>
+          <div className="grid gap-2 rounded-[28px] bg-[hsl(var(--ink)_/_0.03)] p-4 md:p-5">
+            <div className="text-sm text-[hsl(var(--muted))]">Mulai belanja</div>
+            <div className="text-sm text-[hsl(var(--muted))]">Buat akun pembeli atau masuk untuk melihat pesanan.</div>
+            <div className="flex flex-col gap-2 sm:flex-row">
+              <Link to="/daftar" className="w-full">
+                <Button className="w-full">Daftar</Button>
+              </Link>
+              <Link to="/masuk" className="w-full">
+                <Button variant="ghost" className="w-full">
+                  Masuk
+                </Button>
+              </Link>
             </div>
-            <div className="rounded-2xl bg-[hsl(var(--bg)_/_0.7)] p-4">
-              <div className="font-display text-lg">Pedagang</div>
-              <div className="mt-1 text-sm text-[hsl(var(--muted))]">HP: 081234567890 • Pass: demo12345</div>
-            </div>
-            <Link to="/masuk" className="text-sm text-[hsl(var(--leaf))] underline underline-offset-4">
-              Masuk sekarang
-            </Link>
           </div>
         </div>
       </section>
@@ -110,7 +170,7 @@ export default function Home() {
         <div className="flex items-end justify-between gap-4">
           <div>
             <div className="font-display text-2xl">Rekomendasi hari ini</div>
-            <div className="text-sm text-[hsl(var(--muted))]">Pilihan cepat dari kios yang sedang buka</div>
+              <div className="text-sm text-[hsl(var(--muted))]">Produk pilihan Belanjaku</div>
           </div>
           <Link to="/jelajah" className="hidden text-sm text-[hsl(var(--leaf))] underline underline-offset-4 md:block">
             Lihat semua

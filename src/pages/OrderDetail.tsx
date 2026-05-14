@@ -1,37 +1,13 @@
-import { apiGet, apiSend } from '@/api/http'
+import { apiGet, apiSend, apiSendForm } from '@/api/http'
 import type { Order, OrderItem, OrderStatus } from '@/api/types'
 import { formatRupiah } from '@/components/Price'
 import { Button } from '@/components/ui/Button'
+import { labelFulfillment, labelOrderStatus } from '@/lib/orderLabels'
 import { useAuthStore } from '@/stores/authStore'
 import { useEffect, useMemo, useState } from 'react'
 import { Link, useNavigate, useParams } from 'react-router-dom'
 
 type Data = { order: Order; items: OrderItem[] }
-
-function labelStatus(status: string): string {
-  switch (status) {
-    case 'created':
-      return 'Menunggu pembayaran'
-    case 'awaiting_payment':
-      return 'Menunggu pembayaran'
-    case 'paid':
-      return 'Dibayar'
-    case 'confirmed':
-      return 'Dikonfirmasi'
-    case 'processing':
-      return 'Diproses'
-    case 'ready_for_pickup':
-      return 'Siap diambil'
-    case 'out_for_delivery':
-      return 'Dikirim'
-    case 'completed':
-      return 'Selesai'
-    case 'cancelled':
-      return 'Dibatalkan'
-    default:
-      return status
-  }
-}
 
 const SELLER_STEPS: Array<{ label: string; status: OrderStatus }> = [
   { label: 'Konfirmasi', status: 'confirmed' },
@@ -39,6 +15,13 @@ const SELLER_STEPS: Array<{ label: string; status: OrderStatus }> = [
   { label: 'Siap', status: 'ready_for_pickup' },
   { label: 'Kirim', status: 'out_for_delivery' },
   { label: 'Selesai', status: 'completed' },
+]
+
+const ADMIN_STEPS: Array<{ label: string; status: OrderStatus }> = [
+  { label: 'Proses', status: 'processing' },
+  { label: 'Kirim', status: 'out_for_delivery' },
+  { label: 'Selesai', status: 'completed' },
+  { label: 'Batal', status: 'cancelled' },
 ]
 
 export default function OrderDetail() {
@@ -53,6 +36,11 @@ export default function OrderDetail() {
   const [paySenderName, setPaySenderName] = useState('')
   const [payMethod, setPayMethod] = useState('Transfer Bank')
   const [payReference, setPayReference] = useState('')
+  const [paymentProofFile, setPaymentProofFile] = useState<File | null>(null)
+
+  const [couriers, setCouriers] = useState<Array<{ id: string; name: string; phone?: string; email?: string }>>([])
+  const [adminShippingFee, setAdminShippingFee] = useState<number>(0)
+  const [adminCourierId, setAdminCourierId] = useState<string>('')
 
   useEffect(() => {
     if (!user || !token) navigate(`/masuk?next=/pesanan/${encodeURIComponent(String(id))}`, { replace: true })
@@ -91,13 +79,45 @@ export default function OrderDetail() {
     return data.items.reduce((sum, it) => sum + it.unitPriceSnapshot * it.qty, 0)
   }, [data])
 
+  const isSeller = user?.role === 'seller'
+  const isAdmin = user?.role === 'admin'
+  const isCourier = user?.role === 'courier'
+  const backTo = isAdmin ? '/admin/pesanan' : isCourier ? '/mitra' : '/pesanan'
+
+  useEffect(() => {
+    if (!isAdmin || !token || !data) return
+    setAdminShippingFee(data.order.shippingFee)
+    setAdminCourierId(data.order.courierUserId ?? '')
+  }, [data, isAdmin, token])
+
+  useEffect(() => {
+    let cancelled = false
+    ;(async () => {
+      if (!isAdmin || !token) return
+      try {
+        const list = await apiGet<Array<{ id: string; name: string; phone?: string; email?: string }>>('/api/admin/couriers', token)
+        if (cancelled) return
+        setCouriers(list)
+      } catch {
+        if (cancelled) return
+        setCouriers([])
+      }
+    })()
+    return () => {
+      cancelled = true
+    }
+  }, [isAdmin, token])
+
   if (loading) return <div className="paper h-[520px] animate-pulse rounded-[32px] bg-[hsl(var(--ink)_/_0.04)]" />
   if (error) return <div className="paper rounded-3xl p-5 text-sm text-[hsl(var(--chili))]">{error}</div>
   if (!data) return null
 
-  const isSeller = user?.role === 'seller'
-  const isAwaitingPayment = data.order.status === 'awaiting_payment' || data.order.status === 'created'
+  const isAwaitingPayment = data.order.status === 'awaiting_payment'
   const isPaid = data.order.status === 'paid'
+  const paySender = paySenderName.trim()
+  const payMethodClean = payMethod.trim()
+  const payRef = payReference.trim()
+  const canSubmitPayment = paySender.length >= 2 && payRef.length >= 3
 
   return (
     <div className="grid gap-6 md:grid-cols-[1fr_420px] md:items-start">
@@ -108,11 +128,17 @@ export default function OrderDetail() {
             <div className="mt-1 text-sm text-[hsl(var(--muted))]">#{data.order.id.slice(0, 12)}</div>
           </div>
           <div className="flex items-center gap-2">
+            <Link to={`/nota/${encodeURIComponent(data.order.id)}`} target="_blank" rel="noreferrer">
+              <Button variant="ghost">Cetak nota</Button>
+            </Link>
+            <Link to={`/nota-kecil/${encodeURIComponent(data.order.id)}`} target="_blank" rel="noreferrer">
+              <Button variant="ghost">Nota kecil</Button>
+            </Link>
             <span className="rounded-full bg-[hsl(var(--leaf)_/_0.10)] px-3 py-1 text-sm text-[hsl(var(--leaf))]">
-              {labelStatus(data.order.status)}
+              {labelOrderStatus(data.order.status)}
             </span>
             <span className="rounded-full bg-[hsl(var(--ink)_/_0.05)] px-3 py-1 text-sm text-[hsl(var(--muted))]">
-              {data.order.fulfillment === 'pickup' ? 'Pickup' : 'Delivery'}
+              {labelFulfillment(data.order.fulfillment)}
             </span>
           </div>
         </div>
@@ -147,7 +173,7 @@ export default function OrderDetail() {
         </div>
 
         <div className="mt-6 flex items-center justify-between">
-          <Link to="/pesanan" className="text-sm text-[hsl(var(--leaf))] underline underline-offset-4">
+          <Link to={backTo} className="text-sm text-[hsl(var(--leaf))] underline underline-offset-4">
             Kembali ke daftar
           </Link>
           <Button variant="ghost" onClick={() => reload()}>
@@ -159,10 +185,170 @@ export default function OrderDetail() {
       <div className="paper grain sticky top-24 rounded-[32px] p-6 md:p-7">
         <div className="font-display text-2xl">Aksi</div>
         <div className="mt-2 text-sm text-[hsl(var(--muted))]">
-          {isSeller ? 'Update status agar pembeli tahu progres.' : 'Lakukan pembayaran dulu agar pesanan diproses Belanjaku.'}
+          {isAdmin
+            ? 'Kelola operasional: ongkir, kurir, konfirmasi bayar, dan status.'
+            : isSeller
+              ? 'Update status agar pembeli tahu progres.'
+              : isCourier
+                ? 'Update status pengantaran.'
+                : 'Lakukan pembayaran dulu agar pesanan diproses Belanjaku.'}
         </div>
 
-        {isSeller ? (
+        {isAdmin ? (
+          <div className="mt-5 space-y-3">
+            <div className="rounded-3xl bg-[hsl(var(--ink)_/_0.03)] p-5">
+              <div className="text-sm text-[hsl(var(--muted))]">Ongkir</div>
+              <div className="mt-2 flex gap-2">
+                <input
+                  value={Number.isFinite(adminShippingFee) ? String(adminShippingFee) : ''}
+                  onChange={(e) => setAdminShippingFee(Number(e.target.value))}
+                  inputMode="numeric"
+                  className="h-11 w-full rounded-2xl border border-[hsl(var(--ink)_/_0.10)] bg-[hsl(var(--bg)_/_0.55)] px-4 text-[15px] outline-none focus:border-[hsl(var(--leaf)_/_0.25)]"
+                />
+                <Button
+                  disabled={updating}
+                  onClick={async () => {
+                    if (!token) return
+                    try {
+                      setUpdating(true)
+                      setError(null)
+                      await apiSend<Order>(
+                        `/api/admin/orders/${encodeURIComponent(data.order.id)}`,
+                        'PATCH',
+                        { shippingFee: adminShippingFee },
+                        token,
+                      )
+                      await reload()
+                    } catch (e) {
+                      setError((e as Error).message)
+                    } finally {
+                      setUpdating(false)
+                    }
+                  }}
+                >
+                  {updating ? '...' : 'Simpan'}
+                </Button>
+              </div>
+            </div>
+
+            <div className="rounded-3xl bg-[hsl(var(--ink)_/_0.03)] p-5">
+              <div className="text-sm text-[hsl(var(--muted))]">Kurir</div>
+              <div className="mt-2 grid gap-2">
+                <select
+                  value={adminCourierId}
+                  onChange={(e) => setAdminCourierId(e.target.value)}
+                  className="h-11 w-full rounded-2xl border border-[hsl(var(--ink)_/_0.10)] bg-[hsl(var(--bg)_/_0.55)] px-4 text-[15px] outline-none focus:border-[hsl(var(--leaf)_/_0.25)]"
+                >
+                  <option value="">Belum ditetapkan</option>
+                  {couriers.map((c) => (
+                    <option key={c.id} value={c.id}>
+                      {c.name} {c.phone ? `• ${c.phone}` : ''}
+                    </option>
+                  ))}
+                </select>
+                <Button
+                  variant="ghost"
+                  disabled={updating}
+                  onClick={async () => {
+                    if (!token) return
+                    try {
+                      setUpdating(true)
+                      setError(null)
+                      await apiSend<Order>(
+                        `/api/admin/orders/${encodeURIComponent(data.order.id)}`,
+                        'PATCH',
+                        { courierUserId: adminCourierId || undefined },
+                        token,
+                      )
+                      await reload()
+                    } catch (e) {
+                      setError((e as Error).message)
+                    } finally {
+                      setUpdating(false)
+                    }
+                  }}
+                >
+                  Tetapkan kurir
+                </Button>
+              </div>
+            </div>
+
+            {data.order.paymentChannel !== 'cod' ? (
+              <div className="rounded-3xl bg-[hsl(var(--ink)_/_0.03)] p-5">
+                <div className="text-sm text-[hsl(var(--muted))]">Bukti bayar</div>
+                {data.order.paymentProofUrl ? (
+                  <a href={data.order.paymentProofUrl} target="_blank" rel="noreferrer" className="mt-3 block">
+                    <img
+                      src={data.order.paymentProofUrl}
+                      alt="Bukti bayar"
+                      className="h-40 w-full rounded-3xl object-cover"
+                    />
+                  </a>
+                ) : (
+                  <div className="mt-2 text-sm text-[hsl(var(--muted))]">Belum ada bukti.</div>
+                )}
+
+                {isAwaitingPayment ? (
+                  <div className="mt-4">
+                    <Button
+                      disabled={updating}
+                      onClick={async () => {
+                        if (!token) return
+                        try {
+                          setUpdating(true)
+                          setError(null)
+                          await apiSend<Order>(
+                            `/api/admin/orders/${encodeURIComponent(data.order.id)}/confirm-payment`,
+                            'POST',
+                            undefined,
+                            token,
+                          )
+                          await reload()
+                        } catch (e) {
+                          setError((e as Error).message)
+                        } finally {
+                          setUpdating(false)
+                        }
+                      }}
+                    >
+                      {updating ? 'Mengonfirmasi...' : 'Konfirmasi pembayaran'}
+                    </Button>
+                  </div>
+                ) : null}
+              </div>
+            ) : null}
+
+            <div className="grid gap-2">
+              {ADMIN_STEPS.map((s) => (
+                <Button
+                  key={s.status}
+                  variant={data.order.status === s.status ? 'primary' : 'ghost'}
+                  disabled={updating || (isAwaitingPayment && s.status !== 'cancelled')}
+                  onClick={async () => {
+                    if (!token) return
+                    try {
+                      setUpdating(true)
+                      setError(null)
+                      await apiSend<Order>(
+                        `/api/orders/${encodeURIComponent(data.order.id)}/status`,
+                        'PATCH',
+                        { status: s.status },
+                        token,
+                      )
+                      await reload()
+                    } catch (e) {
+                      setError((e as Error).message)
+                    } finally {
+                      setUpdating(false)
+                    }
+                  }}
+                >
+                  {updating ? 'Mengubah...' : s.label}
+                </Button>
+              ))}
+            </div>
+          </div>
+        ) : isSeller ? (
           <div className="mt-5 grid gap-2">
             {SELLER_STEPS.map((s) => (
               <Button
@@ -197,9 +383,41 @@ export default function OrderDetail() {
               </div>
             ) : null}
           </div>
+        ) : isCourier ? (
+          <div className="mt-5 grid gap-2">
+            <Button
+              disabled={updating || data.order.status === 'completed'}
+              onClick={async () => {
+                if (!token) return
+                try {
+                  setUpdating(true)
+                  setError(null)
+                  await apiSend<Order>(
+                    `/api/orders/${encodeURIComponent(data.order.id)}/status`,
+                    'PATCH',
+                    { status: 'completed' },
+                    token,
+                  )
+                  await reload()
+                } catch (e) {
+                  setError((e as Error).message)
+                } finally {
+                  setUpdating(false)
+                }
+              }}
+            >
+              {updating ? 'Mengubah...' : 'Tandai selesai'}
+            </Button>
+          </div>
         ) : (
           <div className="mt-5 space-y-3">
-            {isAwaitingPayment ? (
+            {data.order.paymentChannel === 'cod' ? (
+              <div className="rounded-3xl bg-[hsl(var(--ink)_/_0.03)] p-5 text-sm text-[hsl(var(--muted))]">
+                Metode pembayaran COD. Pembayaran dilakukan saat pesanan diterima.
+              </div>
+            ) : null}
+
+            {isAwaitingPayment && data.order.paymentChannel !== 'cod' ? (
               <div className="rounded-3xl border border-[hsl(var(--ink)_/_0.10)] bg-[hsl(var(--bg)_/_0.55)] p-5">
                 <div className="text-sm text-[hsl(var(--muted))]">Tujuan pembayaran</div>
                 <div className="mt-2 font-display text-xl">{data.order.paymentTo ?? 'Belanjaku'}</div>
@@ -217,9 +435,54 @@ export default function OrderDetail() {
                     <div className="font-semibold text-[hsl(var(--ink))]">{data.order.paymentAccountName ?? '-'}</div>
                   </div>
                 </div>
+                {data.order.paymentChannel === 'qris' ? (
+                  <div className="mt-3 rounded-3xl bg-[hsl(var(--ink)_/_0.03)] p-4 text-sm text-[hsl(var(--muted))]">
+                    QRIS belum diunggah. Untuk sementara gunakan transfer bank di atas.
+                  </div>
+                ) : null}
                 <div className="mt-2 text-sm text-[hsl(var(--muted))]">
                   Lakukan pembayaran, lalu isi data di bawah untuk mencatat pembayaran.
                 </div>
+              </div>
+            ) : null}
+
+            {isAwaitingPayment && data.order.paymentChannel !== 'cod' ? (
+              <div className="rounded-3xl bg-[hsl(var(--ink)_/_0.03)] p-5">
+                <div className="text-sm text-[hsl(var(--muted))]">Upload bukti bayar (opsional)</div>
+                <input
+                  type="file"
+                  accept="image/*"
+                  onChange={(e) => setPaymentProofFile(e.target.files?.[0] ?? null)}
+                  className="mt-3 block w-full text-sm text-[hsl(var(--muted))] file:mr-4 file:rounded-2xl file:border-0 file:bg-[hsl(var(--ink)_/_0.06)] file:px-4 file:py-2 file:text-sm file:text-[hsl(var(--ink))] hover:file:bg-[hsl(var(--ink)_/_0.08)]"
+                />
+                <Button
+                  variant="ghost"
+                  disabled={updating || !paymentProofFile}
+                  onClick={async () => {
+                    if (!token || !paymentProofFile) return
+                    try {
+                      setUpdating(true)
+                      setError(null)
+                      const form = new FormData()
+                      form.append('file', paymentProofFile)
+                      await apiSendForm<Order>(
+                        `/api/orders/${encodeURIComponent(data.order.id)}/payment-proof`,
+                        'POST',
+                        form,
+                        token,
+                      )
+                      setPaymentProofFile(null)
+                      await reload()
+                    } catch (e) {
+                      setError((e as Error).message)
+                    } finally {
+                      setUpdating(false)
+                    }
+                  }}
+                  className="mt-3 w-full"
+                >
+                  {updating ? 'Mengunggah...' : 'Upload bukti'}
+                </Button>
               </div>
             ) : null}
 
@@ -229,7 +492,7 @@ export default function OrderDetail() {
               </div>
             ) : null}
 
-            {isAwaitingPayment ? (
+            {isAwaitingPayment && data.order.paymentChannel !== 'cod' ? (
               <div className="rounded-3xl bg-[hsl(var(--ink)_/_0.03)] p-5">
                 <div className="grid gap-3">
                   <div>
@@ -260,9 +523,13 @@ export default function OrderDetail() {
                     />
                   </div>
                   <Button
-                    disabled={updating}
+                    disabled={updating || !canSubmitPayment}
                     onClick={async () => {
                       if (!token) return
+                      if (!canSubmitPayment) {
+                        setError('Isi nama pengirim dan nomor referensi.')
+                        return
+                      }
                       try {
                         setUpdating(true)
                         setError(null)
@@ -270,9 +537,9 @@ export default function OrderDetail() {
                           `/api/orders/${encodeURIComponent(data.order.id)}/payment`,
                           'POST',
                           {
-                            senderName: paySenderName.trim(),
-                            method: payMethod.trim(),
-                            reference: payReference.trim(),
+                            senderName: paySender,
+                            method: payMethodClean,
+                            reference: payRef,
                           },
                           token,
                         )

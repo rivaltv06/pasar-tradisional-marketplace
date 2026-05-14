@@ -1,28 +1,53 @@
 {
   "users": [
     {
-      "id": "usr_15ca7ebc-db49-48a6-ab8d-05692d3a7d9a",
+      "id": "usr_db32f484-6985-4ae7-b6cc-dfb5ed4638f0",
       "role": "admin",
-      "name": "Admin Pasar",
-      "email": "admin@pasar.local",
-      "passwordHash": "pbkdf2_sha256$120000$b1d46406edc60563dda6a2898266577c$f4428de888eb1e0e0418efdb0a5a9794fd435003f7ba740d05846569ce236dc1",
-      "createdAt": "2026-05-14T10:37:11.473Z"
+      "name": "adnan",
+      "email": "adnanrival06@gmail.com",
+      "passwordHash": "pbkdf2_sha256$120000$44b80b71f8a78ab290482cf620b1f7ae$464eade4f25b783efbea31b4f206618400d98921025404c6d6db387ade990475",
+      "createdAt": "2026-05-14T13:30:27.230Z"
     },
     {
-      "id": "usr_c172ac36-ee0f-4c71-8037-7acb34f6b183",
-      "role": "seller",
-      "name": "Bu Sari",
-      "phone": "081234567890",
-      "passwordHash": "pbkdf2_sha256$120000$f2c93549c4db2825456609e60716f370$a78e9ebba54e369cd5ea2127e8fb4f6e01659e91807f2e826c007192d92e24a7",
-      "createdAt": "2026-05-14T10:37:11.550Z"
-    },
-    {
-      "id": "usr_c256f608-3f54-4262-873c-3569183b881b",
+      "id": "usr_dea5ced1-ebd2-4a38-a619-9d49655937dd",
       "role": "buyer",
-      "name": "Raka",
-      "phone": "081200000001",
-      "passwordHash": "pbkdf2_sha256$120000$06d2622ce61594ed1565166a8ce52479$a1dad33fc4d2d5422c983f141122074fff2b44fea372961f1a94f7c73e53a12c",
-      "createdAt": "2026-05-14T10:37:11.630Z"
+      "name": "Buyer",
+      "phone": "081200000009",
+      "passwordHash": "pbkdf2_sha256$120000$d1f0188dabaac1893cd33f3a0f3ec1a6$8e11f399602586e228e62c9328afac3574c0db2fb88e08792b27fcbb2b52dfd1",
+      "createdAt": "2026-05-14T14:00:51.293Z"
+    },
+    {
+      "id": "usr_5157b9ad-1d41-493a-b0d7-d2f78b782f64",
+      "role": "courier",
+      "name": "Mitra 1",
+      "email": "mitra1@belanjaku.local",
+      "phone": "081200000111",
+      "passwordHash": "pbkdf2_sha256$120000$8e5b6d4994f3f7e773a05520c9d8bcc8$c1e150d06db0e64e50830d8d56645e1d3b5578365c9c5f4e41a53e613a7e5125",
+      "createdAt": "2026-05-14T14:21:36.007Z"
+    },
+    {
+      "id": "usr_adc2d662-8349-47eb-b3e4-ca7674239d38",
+      "role": "buyer",
+      "name": "Pembeli",
+      "phone": "081200000222",
+      "passwordHash": "pbkdf2_sha256$120000$5a8e46af7195f1dc7dc80f206f86075e$51c5af64e7228f16787973a0af43357ecdc3917107d060677bde2c9e6784717e",
+      "createdAt": "2026-05-14T14:21:36.158Z"
+    },
+    {
+      "id": "usr_43f48956-c91c-4e6c-ab35-35e0cea8d834",
+      "role": "buyer",
+      "name": "Pembeli2",
+      "phone": "081200000333",
+      "passwordHash": "pbkdf2_sha256$120000$b4d4e9fc7b0124be511ceaeb3394e404$581dff952bf5320987529909333d20cef100820827c00cf5222205c98305006f",
+      "createdAt": "2026-05-14T14:46:47.152Z"
+    },
+    {
+      "id": "usr_174e34d8-5f6a-46b6-aa7e-d7bae12b7893",
+      "role": "buyer",
+      "name": "Pembeli2",
+      "phone": "081200000848",
+      "passwordHash": "pbkdf2_sha256$120000$8ff32a718c2b9e159a1fe515e44d35f7$b81895682f7bf5a47aee8590a3649f86b19e1f7d8a8bf0b30dbe6b6bd2ec4f68",
+      "createdAt": "2026-05-14T14:47:48.480Z"
     }
   ],
   "markets": [
@@ -42,7 +67,7 @@
   "stalls": [
     {
       "id": "stl_6b1cb631-81d9-412f-8f55-3eb47b927aac",
-      "sellerUserId": "usr_c172ac36-ee0f-4c71-8037-7acb34f6b183",
+      "sellerUserId": "usr_db32f484-6985-4ae7-b6cc-dfb5ed4638f0",
       "marketId": "mkt_bbfb23e3-40be-4dc1-859e-18cef31730bf",
       "name": "Kios Segar Bu Sari",
       "description": "Sayur & bumbu harian. Bisa titip pilih yang segar.",
@@ -95,52 +120,698 @@
       "stockQty": 40,
       "isHidden": false,
       "imageUrl": "https://coresg-normal.trae.ai/api/ide/v1/text_to_image?prompt=fresh%20spinach%20bundles%20tied%20with%20raffia%2C%20traditional%20market%20table%2C%20warm%20light%2C%20photorealistic%2C%20high%20detail&image_size=landscape_4_3"
+    },
+    {
+      "id": "prd_86d140bc-683e-4070-aadd-cf75cf35f22b",
+      "stallId": "stl_6b1cb631-81d9-412f-8f55-3eb47b927aac",
+      "name": "Beras Premium",
+      "categoryId": "sembako",
+      "price": 75000,
+      "unit": "kg",
+      "stockQty": 10,
+      "isHidden": false
+    },
+    {
+      "id": "prd_bba94a8d-c262-405f-81ce-b6a491685be0",
+      "stallId": "stl_6b1cb631-81d9-412f-8f55-3eb47b927aac",
+      "name": "Minyak goreng",
+      "categoryId": "sembako",
+      "price": 0,
+      "unit": "kg",
+      "stockQty": 0,
+      "isHidden": true
+    },
+    {
+      "id": "prd_329a8b69-5389-48d3-9e9c-9ccf102343f2",
+      "stallId": "stl_6b1cb631-81d9-412f-8f55-3eb47b927aac",
+      "name": "Gula pasir",
+      "categoryId": "sembako",
+      "price": 0,
+      "unit": "kg",
+      "stockQty": 0,
+      "isHidden": true
+    },
+    {
+      "id": "prd_82ac4f17-4f11-419b-8c90-a4d7d7ca3304",
+      "stallId": "stl_6b1cb631-81d9-412f-8f55-3eb47b927aac",
+      "name": "Gula merah",
+      "categoryId": "sembako",
+      "price": 0,
+      "unit": "kg",
+      "stockQty": 0,
+      "isHidden": true
+    },
+    {
+      "id": "prd_85639824-73ca-460c-a808-3fbcceaad059",
+      "stallId": "stl_6b1cb631-81d9-412f-8f55-3eb47b927aac",
+      "name": "Tepung terigu",
+      "categoryId": "sembako",
+      "price": 0,
+      "unit": "kg",
+      "stockQty": 0,
+      "isHidden": true
+    },
+    {
+      "id": "prd_60a5c0f6-ec4b-4873-880f-68736e67b1dd",
+      "stallId": "stl_6b1cb631-81d9-412f-8f55-3eb47b927aac",
+      "name": "Tepung tapioka",
+      "categoryId": "sembako",
+      "price": 0,
+      "unit": "kg",
+      "stockQty": 0,
+      "isHidden": true
+    },
+    {
+      "id": "prd_15041143-7cca-405f-8f7a-5eebae15a04c",
+      "stallId": "stl_6b1cb631-81d9-412f-8f55-3eb47b927aac",
+      "name": "Tepung beras",
+      "categoryId": "sembako",
+      "price": 0,
+      "unit": "kg",
+      "stockQty": 0,
+      "isHidden": true
+    },
+    {
+      "id": "prd_320a2616-33a2-474e-832b-d024bca83ce5",
+      "stallId": "stl_6b1cb631-81d9-412f-8f55-3eb47b927aac",
+      "name": "Beras putih",
+      "categoryId": "sembako",
+      "price": 0,
+      "unit": "kg",
+      "stockQty": 0,
+      "isHidden": true
+    },
+    {
+      "id": "prd_580f5ec8-7dc2-46a8-9241-7b7d917a6623",
+      "stallId": "stl_6b1cb631-81d9-412f-8f55-3eb47b927aac",
+      "name": "Beras merah",
+      "categoryId": "sembako",
+      "price": 0,
+      "unit": "kg",
+      "stockQty": 0,
+      "isHidden": true
+    },
+    {
+      "id": "prd_610aaa14-79d8-45fa-9bbb-c183644e8058",
+      "stallId": "stl_6b1cb631-81d9-412f-8f55-3eb47b927aac",
+      "name": "Jagung",
+      "categoryId": "sayur",
+      "price": 0,
+      "unit": "kg",
+      "stockQty": 0,
+      "isHidden": true
+    },
+    {
+      "id": "prd_6f87407a-c588-409b-b60b-dd60bde7784f",
+      "stallId": "stl_6b1cb631-81d9-412f-8f55-3eb47b927aac",
+      "name": "Singkong",
+      "categoryId": "sayur",
+      "price": 0,
+      "unit": "kg",
+      "stockQty": 0,
+      "isHidden": true
+    },
+    {
+      "id": "prd_814ad156-abe5-4944-81e6-c7aeef1fd3c6",
+      "stallId": "stl_6b1cb631-81d9-412f-8f55-3eb47b927aac",
+      "name": "Ubi jalar",
+      "categoryId": "sayur",
+      "price": 0,
+      "unit": "kg",
+      "stockQty": 0,
+      "isHidden": true
+    },
+    {
+      "id": "prd_31acbc57-5d61-4ffd-9f72-5f9c6db1ee45",
+      "stallId": "stl_6b1cb631-81d9-412f-8f55-3eb47b927aac",
+      "name": "Kentang",
+      "categoryId": "sayur",
+      "price": 0,
+      "unit": "kg",
+      "stockQty": 0,
+      "isHidden": true
+    },
+    {
+      "id": "prd_beeaee07-21ee-4c83-a339-f96ddb289868",
+      "stallId": "stl_6b1cb631-81d9-412f-8f55-3eb47b927aac",
+      "name": "Telur ayam",
+      "categoryId": "daging",
+      "price": 0,
+      "unit": "buah",
+      "stockQty": 0,
+      "isHidden": true
+    },
+    {
+      "id": "prd_222e6ac8-920e-45d2-9dd2-a77e84d12a1f",
+      "stallId": "stl_6b1cb631-81d9-412f-8f55-3eb47b927aac",
+      "name": "Daging ayam",
+      "categoryId": "daging",
+      "price": 0,
+      "unit": "kg",
+      "stockQty": 0,
+      "isHidden": true
+    },
+    {
+      "id": "prd_46fb4276-4c26-4f0f-bdb2-c031fb5fd583",
+      "stallId": "stl_6b1cb631-81d9-412f-8f55-3eb47b927aac",
+      "name": "Daging sapi",
+      "categoryId": "daging",
+      "price": 0,
+      "unit": "kg",
+      "stockQty": 0,
+      "isHidden": true
+    },
+    {
+      "id": "prd_d7c0f5f9-708c-4562-a958-909b3de6f0e1",
+      "stallId": "stl_6b1cb631-81d9-412f-8f55-3eb47b927aac",
+      "name": "Ikan segar",
+      "categoryId": "ikan",
+      "price": 0,
+      "unit": "kg",
+      "stockQty": 0,
+      "isHidden": true
+    },
+    {
+      "id": "prd_2ce78092-483d-40a1-80b1-a250e1d15269",
+      "stallId": "stl_6b1cb631-81d9-412f-8f55-3eb47b927aac",
+      "name": "Ikan asin",
+      "categoryId": "ikan",
+      "price": 0,
+      "unit": "kg",
+      "stockQty": 0,
+      "isHidden": true
+    },
+    {
+      "id": "prd_048cddf8-c90f-4de5-a255-2a1b23da0100",
+      "stallId": "stl_6b1cb631-81d9-412f-8f55-3eb47b927aac",
+      "name": "Udang",
+      "categoryId": "ikan",
+      "price": 0,
+      "unit": "kg",
+      "stockQty": 0,
+      "isHidden": true
+    },
+    {
+      "id": "prd_31b2bd2a-f480-4348-8449-543271322c14",
+      "stallId": "stl_6b1cb631-81d9-412f-8f55-3eb47b927aac",
+      "name": "Tempe",
+      "categoryId": "sembako",
+      "price": 0,
+      "unit": "bungkus",
+      "stockQty": 0,
+      "isHidden": true
+    },
+    {
+      "id": "prd_2aa2f1a5-1641-4742-b200-188e4b167c32",
+      "stallId": "stl_6b1cb631-81d9-412f-8f55-3eb47b927aac",
+      "name": "Tahu",
+      "categoryId": "sembako",
+      "price": 0,
+      "unit": "bungkus",
+      "stockQty": 0,
+      "isHidden": true
+    },
+    {
+      "id": "prd_fca786d0-4538-4af6-b71e-a84d9d00c5db",
+      "stallId": "stl_6b1cb631-81d9-412f-8f55-3eb47b927aac",
+      "name": "Kedelai",
+      "categoryId": "sembako",
+      "price": 0,
+      "unit": "kg",
+      "stockQty": 0,
+      "isHidden": true
+    },
+    {
+      "id": "prd_ee7e6f7e-6cc4-4d0c-9216-081c01104cc2",
+      "stallId": "stl_6b1cb631-81d9-412f-8f55-3eb47b927aac",
+      "name": "Kacang hijau",
+      "categoryId": "sembako",
+      "price": 0,
+      "unit": "kg",
+      "stockQty": 0,
+      "isHidden": true
+    },
+    {
+      "id": "prd_bbb3dac2-bb02-4eca-aaf0-a9220d8e1228",
+      "stallId": "stl_6b1cb631-81d9-412f-8f55-3eb47b927aac",
+      "name": "Kacang tanah",
+      "categoryId": "sembako",
+      "price": 0,
+      "unit": "kg",
+      "stockQty": 0,
+      "isHidden": true
+    },
+    {
+      "id": "prd_db29be21-4e6d-4e8a-a366-d0084665145c",
+      "stallId": "stl_6b1cb631-81d9-412f-8f55-3eb47b927aac",
+      "name": "Bayam",
+      "categoryId": "sayur",
+      "price": 0,
+      "unit": "ikat",
+      "stockQty": 0,
+      "isHidden": true
+    },
+    {
+      "id": "prd_351c7f7d-1ef6-4555-8ea8-54db09c403b1",
+      "stallId": "stl_6b1cb631-81d9-412f-8f55-3eb47b927aac",
+      "name": "Kangkung",
+      "categoryId": "sayur",
+      "price": 0,
+      "unit": "ikat",
+      "stockQty": 0,
+      "isHidden": true
+    },
+    {
+      "id": "prd_a3124df2-bfb9-453b-aea5-c5b754c13fe3",
+      "stallId": "stl_6b1cb631-81d9-412f-8f55-3eb47b927aac",
+      "name": "Sawi",
+      "categoryId": "sayur",
+      "price": 0,
+      "unit": "ikat",
+      "stockQty": 0,
+      "isHidden": true
+    },
+    {
+      "id": "prd_fc4b0889-e3df-4d71-975b-6b43e95d9b48",
+      "stallId": "stl_6b1cb631-81d9-412f-8f55-3eb47b927aac",
+      "name": "Kol",
+      "categoryId": "sayur",
+      "price": 0,
+      "unit": "kg",
+      "stockQty": 0,
+      "isHidden": true
+    },
+    {
+      "id": "prd_60d7a801-4bd3-43c8-8df2-0e2553077603",
+      "stallId": "stl_6b1cb631-81d9-412f-8f55-3eb47b927aac",
+      "name": "Wortel",
+      "categoryId": "sayur",
+      "price": 0,
+      "unit": "kg",
+      "stockQty": 0,
+      "isHidden": true
+    },
+    {
+      "id": "prd_5984a4c4-623b-426c-90ae-7ad065d0289c",
+      "stallId": "stl_6b1cb631-81d9-412f-8f55-3eb47b927aac",
+      "name": "Buncis",
+      "categoryId": "sayur",
+      "price": 0,
+      "unit": "kg",
+      "stockQty": 0,
+      "isHidden": true
+    },
+    {
+      "id": "prd_8f794a83-39a6-4779-8cef-f0695d48594c",
+      "stallId": "stl_6b1cb631-81d9-412f-8f55-3eb47b927aac",
+      "name": "Timun",
+      "categoryId": "sayur",
+      "price": 0,
+      "unit": "kg",
+      "stockQty": 0,
+      "isHidden": true
+    },
+    {
+      "id": "prd_ab285452-a494-4495-98f2-f557be95c40a",
+      "stallId": "stl_6b1cb631-81d9-412f-8f55-3eb47b927aac",
+      "name": "Tomat",
+      "categoryId": "sayur",
+      "price": 0,
+      "unit": "kg",
+      "stockQty": 0,
+      "isHidden": true
+    },
+    {
+      "id": "prd_3ef3ef19-3a75-433e-b591-62e7b53ffb10",
+      "stallId": "stl_6b1cb631-81d9-412f-8f55-3eb47b927aac",
+      "name": "Bawang putih",
+      "categoryId": "bumbu",
+      "price": 0,
+      "unit": "kg",
+      "stockQty": 0,
+      "isHidden": true
+    },
+    {
+      "id": "prd_37b08a21-99b2-43a8-b9b3-1a47946ded55",
+      "stallId": "stl_6b1cb631-81d9-412f-8f55-3eb47b927aac",
+      "name": "Cabai merah",
+      "categoryId": "bumbu",
+      "price": 0,
+      "unit": "kg",
+      "stockQty": 0,
+      "isHidden": true
+    },
+    {
+      "id": "prd_21f490a2-8476-4858-b127-101b0c9592f3",
+      "stallId": "stl_6b1cb631-81d9-412f-8f55-3eb47b927aac",
+      "name": "Cabai rawit",
+      "categoryId": "bumbu",
+      "price": 0,
+      "unit": "kg",
+      "stockQty": 0,
+      "isHidden": true
+    },
+    {
+      "id": "prd_0764a6a6-9210-48c9-b44f-306dd774d862",
+      "stallId": "stl_6b1cb631-81d9-412f-8f55-3eb47b927aac",
+      "name": "Jahe",
+      "categoryId": "bumbu",
+      "price": 0,
+      "unit": "kg",
+      "stockQty": 0,
+      "isHidden": true
+    },
+    {
+      "id": "prd_ead7172f-b112-4572-94f6-ec06d0bda2c4",
+      "stallId": "stl_6b1cb631-81d9-412f-8f55-3eb47b927aac",
+      "name": "Kunyit",
+      "categoryId": "bumbu",
+      "price": 0,
+      "unit": "kg",
+      "stockQty": 0,
+      "isHidden": true
+    },
+    {
+      "id": "prd_64ed69ab-9802-4e3c-8149-d4f3a722e42e",
+      "stallId": "stl_6b1cb631-81d9-412f-8f55-3eb47b927aac",
+      "name": "Lengkuas",
+      "categoryId": "bumbu",
+      "price": 0,
+      "unit": "kg",
+      "stockQty": 0,
+      "isHidden": true
+    },
+    {
+      "id": "prd_d6ce4dc5-0758-497f-bd2e-18cdfc58909e",
+      "stallId": "stl_6b1cb631-81d9-412f-8f55-3eb47b927aac",
+      "name": "Kemiri",
+      "categoryId": "bumbu",
+      "price": 0,
+      "unit": "kg",
+      "stockQty": 0,
+      "isHidden": true
+    },
+    {
+      "id": "prd_9e817901-1ef1-4821-9922-d64137a9bd80",
+      "stallId": "stl_6b1cb631-81d9-412f-8f55-3eb47b927aac",
+      "name": "Serai",
+      "categoryId": "bumbu",
+      "price": 0,
+      "unit": "kg",
+      "stockQty": 0,
+      "isHidden": true
+    },
+    {
+      "id": "prd_d0769df6-ef70-4558-94ff-85a14f25ab3f",
+      "stallId": "stl_6b1cb631-81d9-412f-8f55-3eb47b927aac",
+      "name": "Pisang",
+      "categoryId": "buah",
+      "price": 0,
+      "unit": "buah",
+      "stockQty": 0,
+      "isHidden": true
+    },
+    {
+      "id": "prd_9e57045f-80d0-4ba6-9c78-f81e6cbce189",
+      "stallId": "stl_6b1cb631-81d9-412f-8f55-3eb47b927aac",
+      "name": "Jeruk",
+      "categoryId": "buah",
+      "price": 0,
+      "unit": "buah",
+      "stockQty": 0,
+      "isHidden": true
+    },
+    {
+      "id": "prd_55f9513d-8258-4c5a-b711-5292c60aa8dc",
+      "stallId": "stl_6b1cb631-81d9-412f-8f55-3eb47b927aac",
+      "name": "Apel",
+      "categoryId": "buah",
+      "price": 0,
+      "unit": "buah",
+      "stockQty": 0,
+      "isHidden": true
+    },
+    {
+      "id": "prd_ab2e2247-0a5b-43b5-b7e1-759c47122aec",
+      "stallId": "stl_6b1cb631-81d9-412f-8f55-3eb47b927aac",
+      "name": "Pepaya",
+      "categoryId": "buah",
+      "price": 0,
+      "unit": "buah",
+      "stockQty": 0,
+      "isHidden": true
+    },
+    {
+      "id": "prd_40bcd323-7510-41f0-9eb1-0907b7c5ce45",
+      "stallId": "stl_6b1cb631-81d9-412f-8f55-3eb47b927aac",
+      "name": "Semangka",
+      "categoryId": "buah",
+      "price": 0,
+      "unit": "buah",
+      "stockQty": 0,
+      "isHidden": true
+    },
+    {
+      "id": "prd_ac61c9c8-88a2-4148-a843-b66fb37da861",
+      "stallId": "stl_6b1cb631-81d9-412f-8f55-3eb47b927aac",
+      "name": "Mangga",
+      "categoryId": "buah",
+      "price": 0,
+      "unit": "buah",
+      "stockQty": 0,
+      "isHidden": true
+    },
+    {
+      "id": "prd_b8fd45b3-328f-4607-b94b-1355a5dd0b16",
+      "stallId": "stl_6b1cb631-81d9-412f-8f55-3eb47b927aac",
+      "name": "Garam",
+      "categoryId": "sembako",
+      "price": 0,
+      "unit": "kg",
+      "stockQty": 0,
+      "isHidden": true
+    },
+    {
+      "id": "prd_f4e583cf-5b40-4dc3-a054-c44307454415",
+      "stallId": "stl_6b1cb631-81d9-412f-8f55-3eb47b927aac",
+      "name": "Penyedap rasa",
+      "categoryId": "sembako",
+      "price": 0,
+      "unit": "kg",
+      "stockQty": 0,
+      "isHidden": true
+    },
+    {
+      "id": "prd_b4dd70ca-acae-47f4-8b3d-5005878240e3",
+      "stallId": "stl_6b1cb631-81d9-412f-8f55-3eb47b927aac",
+      "name": "Santan",
+      "categoryId": "sembako",
+      "price": 0,
+      "unit": "bungkus",
+      "stockQty": 0,
+      "isHidden": true
+    },
+    {
+      "id": "prd_d2616e59-6dbb-49a1-9f41-2ef22ed89007",
+      "stallId": "stl_6b1cb631-81d9-412f-8f55-3eb47b927aac",
+      "name": "Mie",
+      "categoryId": "jajanan",
+      "price": 0,
+      "unit": "bungkus",
+      "stockQty": 0,
+      "isHidden": true
+    },
+    {
+      "id": "prd_fc06094b-1730-4bb1-b2ca-fe95f0157816",
+      "stallId": "stl_6b1cb631-81d9-412f-8f55-3eb47b927aac",
+      "name": "Kerupuk",
+      "categoryId": "jajanan",
+      "price": 0,
+      "unit": "bungkus",
+      "stockQty": 0,
+      "isHidden": true
+    },
+    {
+      "id": "prd_37ba2e50-137d-43b4-82f5-f9dc88817934",
+      "stallId": "stl_6b1cb631-81d9-412f-8f55-3eb47b927aac",
+      "name": "Teh",
+      "categoryId": "jajanan",
+      "price": 0,
+      "unit": "bungkus",
+      "stockQty": 0,
+      "isHidden": true
+    },
+    {
+      "id": "prd_2545724e-a36c-4ec6-9f20-dc81d2aaa150",
+      "stallId": "stl_6b1cb631-81d9-412f-8f55-3eb47b927aac",
+      "name": "Kopi",
+      "categoryId": "jajanan",
+      "price": 0,
+      "unit": "bungkus",
+      "stockQty": 0,
+      "isHidden": true
+    },
+    {
+      "id": "prd_d0d8b54f-d528-4fc0-a518-e6df2c8c7dce",
+      "stallId": "stl_6b1cb631-81d9-412f-8f55-3eb47b927aac",
+      "name": "Beras Putih 5kg",
+      "categoryId": "sembako",
+      "price": 60000,
+      "unit": "kg",
+      "stockQty": 20,
+      "isHidden": false
+    },
+    {
+      "id": "prd_5b55ce11-3aa7-4371-8bac-57b03bb3d9c6",
+      "stallId": "stl_6b1cb631-81d9-412f-8f55-3eb47b927aac",
+      "name": "Beras Putih 5kg",
+      "categoryId": "sembako",
+      "price": 60000,
+      "unit": "kg",
+      "stockQty": 20,
+      "isHidden": false
+    },
+    {
+      "id": "prd_7cc9bfbd-ec12-4e95-a18f-238d5f99c47f",
+      "stallId": "stl_6b1cb631-81d9-412f-8f55-3eb47b927aac",
+      "name": "Tomat 1kg",
+      "categoryId": "sayur",
+      "price": 15000,
+      "unit": "kg",
+      "stockQty": 10,
+      "isHidden": false
+    },
+    {
+      "id": "prd_381c8cc6-5000-46b8-adcd-962b592308fe",
+      "stallId": "stl_6b1cb631-81d9-412f-8f55-3eb47b927aac",
+      "name": "StokTest",
+      "categoryId": "sembako",
+      "price": 10000,
+      "unit": "kg",
+      "stockQty": 2,
+      "isHidden": false
+    },
+    {
+      "id": "prd_850296f5-b7e3-4a69-9686-3604d6483aa9",
+      "stallId": "stl_6b1cb631-81d9-412f-8f55-3eb47b927aac",
+      "name": "StokTest",
+      "categoryId": "sembako",
+      "price": 10000,
+      "unit": "kg",
+      "stockQty": 2,
+      "isHidden": false
     }
   ],
   "orders": [
     {
-      "id": "ord_512b602f-82bd-43d0-bfe6-479c08110924",
-      "buyerUserId": "usr_c256f608-3f54-4262-873c-3569183b881b",
+      "id": "ord_aa7e6ad8-ab14-47c1-a87c-087ea1f55603",
+      "buyerUserId": "usr_dea5ced1-ebd2-4a38-a619-9d49655937dd",
       "stallId": "stl_6b1cb631-81d9-412f-8f55-3eb47b927aac",
       "status": "awaiting_payment",
-      "fulfillment": "pickup",
-      "totalAmount": 65000,
+      "fulfillment": "delivery",
+      "addressText": "Rajapolah, Tasikmalaya, Jawa Barat",
+      "itemsAmount": 60000,
+      "shippingFee": 0,
+      "totalAmount": 60000,
+      "paymentChannel": "transfer",
       "paymentTo": "Belanjaku",
-      "createdAt": "2026-05-14T10:46:12.588Z"
+      "paymentBank": "BCA",
+      "paymentAccountNumber": "0541206603",
+      "paymentAccountName": "Adnan Rival Nugraha",
+      "createdAt": "2026-05-14T14:00:51.311Z",
+      "stockDeducted": false
     },
     {
-      "id": "ord_843b25b6-fb75-4aa4-93a5-b1f4cee05d96",
-      "buyerUserId": "usr_c256f608-3f54-4262-873c-3569183b881b",
+      "id": "ord_4c3425be-38af-4ea5-9dc5-a555d02274a7",
+      "buyerUserId": "usr_adc2d662-8349-47eb-b3e4-ca7674239d38",
       "stallId": "stl_6b1cb631-81d9-412f-8f55-3eb47b927aac",
-      "status": "confirmed",
-      "fulfillment": "pickup",
-      "totalAmount": 65000,
+      "status": "completed",
+      "fulfillment": "delivery",
+      "addressText": "Tasikmalaya",
+      "itemsAmount": 15000,
+      "shippingFee": 15000,
+      "totalAmount": 30000,
+      "paymentChannel": "cod",
       "paymentTo": "Belanjaku",
-      "createdAt": "2026-05-14T10:52:54.920Z",
-      "paymentMethod": "Transfer Bank",
-      "paymentSenderName": "Raka",
-      "paymentReference": "TRX123",
-      "paidAt": "2026-05-14T10:52:54.928Z"
+      "paymentBank": "BCA",
+      "paymentAccountNumber": "0541206603",
+      "paymentAccountName": "Adnan Rival Nugraha",
+      "createdAt": "2026-05-14T14:21:36.177Z",
+      "courierUserId": "usr_5157b9ad-1d41-493a-b0d7-d2f78b782f64",
+      "stockDeducted": false
+    },
+    {
+      "id": "ord_90c7c6e2-eca7-4420-b76e-f54d7649f625",
+      "buyerUserId": "usr_174e34d8-5f6a-46b6-aa7e-d7bae12b7893",
+      "stallId": "stl_6b1cb631-81d9-412f-8f55-3eb47b927aac",
+      "status": "cancelled",
+      "fulfillment": "delivery",
+      "addressText": "Tasikmalaya",
+      "itemsAmount": 20000,
+      "shippingFee": 15000,
+      "totalAmount": 35000,
+      "paymentChannel": "transfer",
+      "paymentTo": "Belanjaku",
+      "paymentBank": "BCA",
+      "paymentAccountNumber": "0541206603",
+      "paymentAccountName": "Adnan Rival Nugraha",
+      "stockDeducted": false,
+      "createdAt": "2026-05-14T14:47:48.505Z",
+      "paidAt": "2026-05-14T14:47:48.568Z"
     }
   ],
   "orderItems": [
     {
-      "id": "oit_c0306ea8-0764-4753-9abe-3379d433ac5e",
-      "orderId": "ord_512b602f-82bd-43d0-bfe6-479c08110924",
-      "productId": "prd_226b6112-43e1-4501-9a6a-528d96ccd5e0",
-      "productNameSnapshot": "Cabai Rawit Merah",
-      "unitPriceSnapshot": 65000,
+      "id": "oit_99f48dd0-605a-46b4-b8dd-7838cd91d5f0",
+      "orderId": "ord_aa7e6ad8-ab14-47c1-a87c-087ea1f55603",
+      "productId": "prd_5b55ce11-3aa7-4371-8bac-57b03bb3d9c6",
+      "productNameSnapshot": "Beras Putih 5kg",
+      "unitPriceSnapshot": 60000,
       "qty": 1,
       "unitSnapshot": "kg"
     },
     {
-      "id": "oit_e401c162-80d0-437a-a62b-86f6792171b9",
-      "orderId": "ord_843b25b6-fb75-4aa4-93a5-b1f4cee05d96",
-      "productId": "prd_226b6112-43e1-4501-9a6a-528d96ccd5e0",
-      "productNameSnapshot": "Cabai Rawit Merah",
-      "unitPriceSnapshot": 65000,
+      "id": "oit_6f97ff4b-507b-457d-9552-eb9221b2293b",
+      "orderId": "ord_4c3425be-38af-4ea5-9dc5-a555d02274a7",
+      "productId": "prd_7cc9bfbd-ec12-4e95-a18f-238d5f99c47f",
+      "productNameSnapshot": "Tomat 1kg",
+      "unitPriceSnapshot": 15000,
       "qty": 1,
       "unitSnapshot": "kg"
+    },
+    {
+      "id": "oit_0c01238f-b653-45eb-bfdc-70e8a6d5a9b1",
+      "orderId": "ord_90c7c6e2-eca7-4420-b76e-f54d7649f625",
+      "productId": "prd_850296f5-b7e3-4a69-9686-3604d6483aa9",
+      "productNameSnapshot": "StokTest",
+      "unitPriceSnapshot": 10000,
+      "qty": 2,
+      "unitSnapshot": "kg"
+    }
+  ],
+  "settings": {
+    "promo": {
+      "enabled": true,
+      "title": "Gratis ongkir",
+      "subtitle": "Min belanja Rp 50.000",
+      "ctaLabel": "Belanja promo",
+      "minItemsAmount": 50000,
+      "ctaCategoryId": "sembako"
+    }
+  },
+  "mitraApplications": [
+    {
+      "id": "mtr_3309db91-432c-4618-9af8-cb929b0908ba",
+      "name": "Mitra 1",
+      "phone": "081200000111",
+      "email": "mitra1@belanjaku.local",
+      "addressText": "Tasikmalaya",
+      "passwordHash": "pbkdf2_sha256$120000$8e5b6d4994f3f7e773a05520c9d8bcc8$c1e150d06db0e64e50830d8d56645e1d3b5578365c9c5f4e41a53e613a7e5125",
+      "status": "approved",
+      "createdAt": "2026-05-14T14:21:35.931Z",
+      "reviewedAt": "2026-05-14T14:21:36.007Z",
+      "reviewedByUserId": "usr_db32f484-6985-4ae7-b6cc-dfb5ed4638f0",
+      "approvedUserId": "usr_5157b9ad-1d41-493a-b0d7-d2f78b782f64"
     }
   ]
 }

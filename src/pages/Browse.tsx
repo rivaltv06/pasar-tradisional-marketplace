@@ -16,6 +16,25 @@ export default function Browse() {
   const q = params.get('q') ?? ''
   const categoryId = params.get('categoryId')
   const inStock = params.get('inStock') === '1'
+  const [qDraft, setQDraft] = useState(q)
+  const paramsString = params.toString()
+
+  useEffect(() => {
+    setQDraft(q)
+  }, [q])
+
+  useEffect(() => {
+    const t = window.setTimeout(() => {
+      const current = paramsString
+      const next = new URLSearchParams(paramsString)
+      const clean = qDraft.trim()
+      if (clean) next.set('q', clean)
+      else next.delete('q')
+      if (next.toString() === current) return
+      setParams(next, { replace: true })
+    }, 400)
+    return () => window.clearTimeout(t)
+  }, [paramsString, qDraft, setParams])
 
   const query = useMemo(() => {
     const qs = new URLSearchParams()
@@ -59,13 +78,8 @@ export default function Browse() {
             <div className="flex h-11 w-full items-center gap-2 rounded-2xl border border-[hsl(var(--ink)_/_0.12)] bg-[hsl(var(--bg)_/_0.6)] px-4 sm:w-[360px]">
               <Search size={18} className="text-[hsl(var(--muted))]" />
               <input
-                value={q}
-                onChange={(e) => {
-                  const next = new URLSearchParams(params)
-                  if (e.target.value.trim()) next.set('q', e.target.value)
-                  else next.delete('q')
-                  setParams(next, { replace: true })
-                }}
+                value={qDraft}
+                onChange={(e) => setQDraft(e.target.value)}
                 placeholder="Cari produk..."
                 className="h-full w-full bg-transparent text-[15px] outline-none placeholder:text-[hsl(var(--muted))]"
               />
@@ -120,4 +134,3 @@ export default function Browse() {
     </div>
   )
 }
-

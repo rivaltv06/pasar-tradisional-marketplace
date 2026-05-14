@@ -8,3 +8,6 @@ export const CATEGORIES: Array<{ id: string; label: string }> = [
   { id: 'jajanan', label: 'Jajanan' },
 ]
 
+export function categoryLabel(id: string): string {
+  return CATEGORIES.find((c) => c.id === id)?.label ?? id
+}

@@ -8,6 +8,11 @@ router.get('/markets', async (req: Request, res: Response) => {
   res.json({ success: true, data: db.markets })
 })
 
+router.get('/promo', async (req: Request, res: Response) => {
+  const db = await getDb()
+  res.json({ success: true, data: db.settings.promo })
+})
+
 router.get('/stalls', async (req: Request, res: Response) => {
   const db = await getDb()
   const marketId = req.query.marketId ? String(req.query.marketId) : null
@@ -47,6 +52,8 @@ router.get('/products', async (req: Request, res: Response) => {
   const minPrice = req.query.minPrice ? toNumber(req.query.minPrice) : null
   const maxPrice = req.query.maxPrice ? toNumber(req.query.maxPrice) : null
   const inStock = req.query.inStock ? String(req.query.inStock) === '1' : false
+  const limitRaw = req.query.limit ? toNumber(req.query.limit) : null
+  const limit = limitRaw !== null && limitRaw > 0 ? Math.min(Math.floor(limitRaw), 200) : null
 
   let products = db.products.filter((p) => !p.isHidden)
 
@@ -60,6 +67,7 @@ router.get('/products', async (req: Request, res: Response) => {
   if (minPrice !== null) products = products.filter((p) => p.price >= minPrice)
   if (maxPrice !== null) products = products.filter((p) => p.price <= maxPrice)
   if (inStock) products = products.filter((p) => p.stockQty > 0)
+  if (limit !== null) products = products.slice(0, limit)
 
   res.json({ success: true, data: products })
 })

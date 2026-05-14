@@ -69,36 +69,16 @@ export default function Login() {
             {submitting ? 'Masuk...' : 'Masuk'}
           </Button>
 
-          <div className="grid gap-2 rounded-3xl bg-[hsl(var(--ink)_/_0.03)] p-5 text-sm text-[hsl(var(--muted))]">
-            <div className="font-display text-lg text-[hsl(var(--ink))]">Isi cepat demo</div>
-            <div className="flex flex-col gap-2 sm:flex-row">
-              <Button
-                variant="ghost"
-                onClick={() => {
-                  setIdentifier('081200000001')
-                  setPassword('demo12345')
-                }}
-                className="w-full"
-              >
-                Pembeli demo
-              </Button>
-              <Button
-                variant="ghost"
-                onClick={() => {
-                  setIdentifier('081234567890')
-                  setPassword('demo12345')
-                }}
-                className="w-full"
-              >
-                Pedagang demo
-              </Button>
-            </div>
-          </div>
-
           <div className="text-center text-sm text-[hsl(var(--muted))]">
             Belum punya akun?{' '}
             <Link to="/daftar" className="text-[hsl(var(--leaf))] underline underline-offset-4">
               Daftar
+            </Link>
+          </div>
+          <div className="text-center text-sm text-[hsl(var(--muted))]">
+            Mau daftar mitra?{' '}
+            <Link to="/mitra/daftar" className="text-[hsl(var(--leaf))] underline underline-offset-4">
+              Daftar Mitra
             </Link>
           </div>
         </div>
@@ -106,4 +86,3 @@ export default function Login() {
     </div>
   )
 }
-

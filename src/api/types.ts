@@ -1,4 +1,4 @@
-export type UserRole = 'buyer' | 'seller' | 'admin'
+export type UserRole = 'buyer' | 'seller' | 'courier' | 'admin'
 
 export type UserPublic = {
   id: string
@@ -54,15 +54,31 @@ export type OrderStatus =
 
 export type FulfillmentMethod = 'pickup' | 'delivery'
 
+export type PaymentChannel = 'transfer' | 'qris' | 'cod'
+
+export type PromoSettings = {
+  enabled: boolean
+  title: string
+  subtitle: string
+  ctaLabel: string
+  ctaCategoryId?: string
+  minItemsAmount: number
+  imageUrl?: string
+}
+
 export type Order = {
   id: string
   buyerUserId: string
   stallId: string
+  courierUserId?: string
   status: OrderStatus
   fulfillment: FulfillmentMethod
   addressText?: string
   notes?: string
+  itemsAmount: number
+  shippingFee: number
   totalAmount: number
+  paymentChannel: PaymentChannel
   paymentTo?: string
   paymentBank?: string
   paymentAccountNumber?: string
@@ -70,6 +86,7 @@ export type Order = {
   paymentMethod?: string
   paymentSenderName?: string
   paymentReference?: string
+  paymentProofUrl?: string
   paidAt?: string
   createdAt: string
 }

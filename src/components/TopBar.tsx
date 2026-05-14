@@ -17,7 +17,7 @@ export function TopBar() {
           </div>
           <div className="leading-tight">
             <div className="font-display text-[18px]">Belanjaku</div>
-            <div className="text-xs text-[hsl(var(--muted))]">Belanja bahan pokok, bayar dulu, lalu diproses</div>
+            <div className="text-xs text-[hsl(var(--muted))]">Delivery Tasikmalaya • bayar dulu, lalu diproses</div>
           </div>
         </Link>
 
@@ -25,7 +25,15 @@ export function TopBar() {
           {user ? (
             <div className="hidden items-center gap-2 md:flex">
               <Link
-                to={user.role === 'seller' ? '/pedagang' : '/pesanan'}
+                to={
+                  user.role === 'seller'
+                    ? '/pedagang'
+                    : user.role === 'courier'
+                      ? '/mitra'
+                      : user.role === 'admin'
+                        ? '/admin/dashboard'
+                        : '/pesanan'
+                }
                 className="inline-flex items-center gap-2 rounded-full border border-[hsl(var(--ink)_/_0.10)] bg-[hsl(var(--card)_/_0.65)] px-4 py-2 text-sm text-[hsl(var(--ink))] hover:bg-[hsl(var(--ink)_/_0.04)]"
               >
                 <UserRound size={16} />

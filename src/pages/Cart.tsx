@@ -94,7 +94,8 @@ export default function Cart() {
                       <button
                         type="button"
                         onClick={() => setQty(it.productId, it.qty + 1)}
-                        className="grid h-10 w-10 place-items-center rounded-2xl bg-[hsl(var(--ink)_/_0.05)] hover:bg-[hsl(var(--ink)_/_0.07)]"
+                        disabled={typeof it.stockQtySnapshot === 'number' && it.stockQtySnapshot > 0 && it.qty >= it.stockQtySnapshot}
+                        className="grid h-10 w-10 place-items-center rounded-2xl bg-[hsl(var(--ink)_/_0.05)] hover:bg-[hsl(var(--ink)_/_0.07)] disabled:opacity-50"
                       >
                         <Plus size={18} />
                       </button>
@@ -105,6 +106,9 @@ export default function Cart() {
                       <div className="font-display text-2xl">{formatRupiah(it.price * it.qty)}</div>
                     </div>
                   </div>
+                  {typeof it.stockQtySnapshot === 'number' ? (
+                    <div className="mt-2 text-xs text-[hsl(var(--muted))]">Maks {it.stockQtySnapshot} {it.unit}.</div>
+                  ) : null}
 
                   <div className="mt-4">
                     <textarea

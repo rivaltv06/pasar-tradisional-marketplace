@@ -2,6 +2,7 @@ import { apiGet } from '@/api/http'
 import type { Product } from '@/api/types'
 import { formatRupiah } from '@/components/Price'
 import { Button } from '@/components/ui/Button'
+import { categoryLabel } from '@/constants/categories'
 import { useCartStore } from '@/stores/cartStore'
 import { Minus, Plus } from 'lucide-react'
 import { useEffect, useMemo, useState } from 'react'
@@ -44,6 +45,16 @@ export default function ProductDetail() {
     return data.product.price * qty
   }, [data, qty])
 
+  const maxQty = useMemo(() => {
+    if (!data) return 0
+    return Math.max(0, Math.floor(data.product.stockQty))
+  }, [data])
+
+  useEffect(() => {
+    if (!data) return
+    setQty((v) => Math.min(Math.max(1, v), Math.max(1, maxQty)))
+  }, [data, maxQty])
+
   if (loading) {
     return <div className="paper h-[520px] animate-pulse rounded-[32px] bg-[hsl(var(--ink)_/_0.04)]" />
   }
@@ -66,7 +77,7 @@ export default function ProductDetail() {
         <div className="p-6 md:p-8">
           <div className="font-display text-3xl">{product.name}</div>
           <div className="mt-2 flex flex-wrap items-center gap-2 text-sm text-[hsl(var(--muted))]">
-            <span className="rounded-full bg-[hsl(var(--ink)_/_0.05)] px-3 py-1">{product.categoryId}</span>
+            <span className="rounded-full bg-[hsl(var(--ink)_/_0.05)] px-3 py-1">{categoryLabel(product.categoryId)}</span>
             <span className="rounded-full bg-[hsl(var(--ink)_/_0.05)] px-3 py-1">{product.stockQty} tersedia</span>
             <span className="rounded-full bg-[hsl(var(--ink)_/_0.05)] px-3 py-1">
               {formatRupiah(product.price)}/{product.unit}
@@ -91,11 +102,15 @@ export default function ProductDetail() {
           </div>
           <button
             type="button"
-            onClick={() => setQty((v) => v + 1)}
-            className="grid h-11 w-11 place-items-center rounded-2xl bg-[hsl(var(--ink)_/_0.05)] hover:bg-[hsl(var(--ink)_/_0.07)]"
+            onClick={() => setQty((v) => Math.min(Math.max(1, maxQty), v + 1))}
+            disabled={maxQty <= 0 || qty >= maxQty}
+            className="grid h-11 w-11 place-items-center rounded-2xl bg-[hsl(var(--ink)_/_0.05)] hover:bg-[hsl(var(--ink)_/_0.07)] disabled:opacity-50"
           >
             <Plus size={18} />
           </button>
+        </div>
+        <div className="mt-2 text-xs text-[hsl(var(--muted))]">
+          {maxQty > 0 ? `Stok tersisa ${maxQty} ${product.unit}.` : 'Stok habis.'}
         </div>
 
         <div className="mt-4">
@@ -125,7 +140,7 @@ export default function ProductDetail() {
               setNotes('')
               setQty(1)
             }}
-            disabled={product.stockQty <= 0}
+            disabled={maxQty <= 0}
           >
             <Plus size={18} />
             <span>Tambah ke Keranjang</span>
