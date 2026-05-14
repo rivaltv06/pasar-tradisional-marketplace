@@ -176,7 +176,14 @@ function getPgPool(): Pool {
   if (!pgPool) {
     const url = process.env.DATABASE_URL
     if (!url) throw new Error('DATABASE_URL belum diset')
-    pgPool = new Pool({ connectionString: url })
+    const needsSsl = !url.includes('localhost') && !url.includes('127.0.0.1')
+    pgPool = new Pool({
+      connectionString: url,
+      max: Number(process.env.PG_POOL_MAX || 5),
+      connectionTimeoutMillis: Number(process.env.PG_CONNECT_TIMEOUT_MS || 10000),
+      idleTimeoutMillis: Number(process.env.PG_IDLE_TIMEOUT_MS || 10000),
+      ssl: needsSsl ? { rejectUnauthorized: false } : undefined,
+    })
   }
   return pgPool
 }
