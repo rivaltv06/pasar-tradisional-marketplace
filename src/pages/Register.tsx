@@ -16,6 +16,11 @@ export default function Register() {
   const [submitting, setSubmitting] = useState(false)
   const [error, setError] = useState<string | null>(null)
 
+  const nameClean = name.trim()
+  const phoneClean = phone.trim()
+  const emailClean = email.trim()
+  const canSubmit = nameClean.length >= 2 && (phoneClean.length > 0 || emailClean.length > 0) && password.length >= 8
+
   useEffect(() => {
     if (token && user) navigate('/', { replace: true })
   }, [navigate, token, user])
@@ -41,24 +46,27 @@ export default function Register() {
 
           <div className="grid gap-4 sm:grid-cols-2">
             <div>
-              <label className="text-sm text-[hsl(var(--muted))]">Nomor HP (opsional)</label>
+              <label className="text-sm text-[hsl(var(--muted))]">Nomor HP</label>
               <input
                 value={phone}
                 onChange={(e) => setPhone(e.target.value)}
                 placeholder="0812xxxxxx"
+                inputMode="tel"
                 className="mt-2 h-11 w-full rounded-2xl border border-[hsl(var(--ink)_/_0.10)] bg-[hsl(var(--bg)_/_0.55)] px-4 text-[15px] outline-none placeholder:text-[hsl(var(--muted))] focus:border-[hsl(var(--leaf)_/_0.25)]"
               />
             </div>
             <div>
-              <label className="text-sm text-[hsl(var(--muted))]">Email (opsional)</label>
+              <label className="text-sm text-[hsl(var(--muted))]">Email</label>
               <input
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 placeholder="nama@email.com"
+                type="email"
                 className="mt-2 h-11 w-full rounded-2xl border border-[hsl(var(--ink)_/_0.10)] bg-[hsl(var(--bg)_/_0.55)] px-4 text-[15px] outline-none placeholder:text-[hsl(var(--muted))] focus:border-[hsl(var(--leaf)_/_0.25)]"
               />
             </div>
           </div>
+          <div className="text-xs text-[hsl(var(--muted))]">Isi minimal salah satu: nomor HP atau email.</div>
 
           <div>
             <label className="text-sm text-[hsl(var(--muted))]">Password</label>
@@ -74,16 +82,28 @@ export default function Register() {
           {error ? <div className="text-sm text-[hsl(var(--chili))]">{error}</div> : null}
 
           <Button
-            disabled={submitting}
+            disabled={submitting || !canSubmit}
             onClick={async () => {
               try {
                 setSubmitting(true)
                 setError(null)
+                if (nameClean.length < 2) {
+                  setError('Nama minimal 2 karakter')
+                  return
+                }
+                if (!phoneClean && !emailClean) {
+                  setError('Email atau nomor HP wajib diisi')
+                  return
+                }
+                if (password.length < 8) {
+                  setError('Password minimal 8 karakter')
+                  return
+                }
                 const payload = {
                   role: 'buyer' as const,
-                  name: name.trim(),
-                  phone: phone.trim() || undefined,
-                  email: email.trim() || undefined,
+                  name: nameClean,
+                  phone: phoneClean || undefined,
+                  email: emailClean || undefined,
                   password,
                 }
                 await register(payload)
