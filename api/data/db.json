@@ -1,0 +1,146 @@
+{
+  "users": [
+    {
+      "id": "usr_15ca7ebc-db49-48a6-ab8d-05692d3a7d9a",
+      "role": "admin",
+      "name": "Admin Pasar",
+      "email": "admin@pasar.local",
+      "passwordHash": "pbkdf2_sha256$120000$b1d46406edc60563dda6a2898266577c$f4428de888eb1e0e0418efdb0a5a9794fd435003f7ba740d05846569ce236dc1",
+      "createdAt": "2026-05-14T10:37:11.473Z"
+    },
+    {
+      "id": "usr_c172ac36-ee0f-4c71-8037-7acb34f6b183",
+      "role": "seller",
+      "name": "Bu Sari",
+      "phone": "081234567890",
+      "passwordHash": "pbkdf2_sha256$120000$f2c93549c4db2825456609e60716f370$a78e9ebba54e369cd5ea2127e8fb4f6e01659e91807f2e826c007192d92e24a7",
+      "createdAt": "2026-05-14T10:37:11.550Z"
+    },
+    {
+      "id": "usr_c256f608-3f54-4262-873c-3569183b881b",
+      "role": "buyer",
+      "name": "Raka",
+      "phone": "081200000001",
+      "passwordHash": "pbkdf2_sha256$120000$06d2622ce61594ed1565166a8ce52479$a1dad33fc4d2d5422c983f141122074fff2b44fea372961f1a94f7c73e53a12c",
+      "createdAt": "2026-05-14T10:37:11.630Z"
+    }
+  ],
+  "markets": [
+    {
+      "id": "mkt_bbfb23e3-40be-4dc1-859e-18cef31730bf",
+      "name": "Pasar Pagi Kota",
+      "city": "Jakarta",
+      "address": "Jl. Pasar Pagi No. 12"
+    },
+    {
+      "id": "mkt_9c568a9a-8209-4a12-9a3f-4bd76c29f3de",
+      "name": "Pasar Induk Sentral",
+      "city": "Jakarta",
+      "address": "Jl. Raya Sentral No. 8"
+    }
+  ],
+  "stalls": [
+    {
+      "id": "stl_6b1cb631-81d9-412f-8f55-3eb47b927aac",
+      "sellerUserId": "usr_c172ac36-ee0f-4c71-8037-7acb34f6b183",
+      "marketId": "mkt_bbfb23e3-40be-4dc1-859e-18cef31730bf",
+      "name": "Kios Segar Bu Sari",
+      "description": "Sayur & bumbu harian. Bisa titip pilih yang segar.",
+      "openHours": "05:00–12:00",
+      "isActive": true,
+      "ratingAvg": 4.8
+    }
+  ],
+  "products": [
+    {
+      "id": "prd_226b6112-43e1-4501-9a6a-528d96ccd5e0",
+      "stallId": "stl_6b1cb631-81d9-412f-8f55-3eb47b927aac",
+      "name": "Cabai Rawit Merah",
+      "categoryId": "bumbu",
+      "price": 65000,
+      "unit": "kg",
+      "stockQty": 12,
+      "isHidden": false,
+      "imageUrl": "https://coresg-normal.trae.ai/api/ide/v1/text_to_image?prompt=close-up%20of%20fresh%20red%20bird%27s%20eye%20chilies%20on%20a%20woven%20bamboo%20tray%2C%20morning%20market%20lighting%2C%20warm%20tones%2C%20shallow%20depth%20of%20field%2C%20high%20detail%2C%20photorealistic&image_size=landscape_4_3"
+    },
+    {
+      "id": "prd_e37d3a2d-5765-4c34-8cbd-01767493d590",
+      "stallId": "stl_6b1cb631-81d9-412f-8f55-3eb47b927aac",
+      "name": "Bawang Merah",
+      "categoryId": "bumbu",
+      "price": 42000,
+      "unit": "kg",
+      "stockQty": 30,
+      "isHidden": false,
+      "imageUrl": "https://coresg-normal.trae.ai/api/ide/v1/text_to_image?prompt=photorealistic%20shallots%20in%20a%20market%20basket%2C%20natural%20morning%20light%2C%20warm%20paper%20background%2C%20high%20detail%2C%20traditional%20market%20vibe&image_size=landscape_4_3"
+    },
+    {
+      "id": "prd_8595ea81-5be3-4376-bb49-6e9335cbbd8b",
+      "stallId": "stl_6b1cb631-81d9-412f-8f55-3eb47b927aac",
+      "name": "Tomat Merah",
+      "categoryId": "sayur",
+      "price": 18000,
+      "unit": "kg",
+      "stockQty": 18,
+      "isHidden": false,
+      "imageUrl": "https://coresg-normal.trae.ai/api/ide/v1/text_to_image?prompt=ripe%20red%20tomatoes%20stacked%20at%20a%20traditional%20market%20stall%2C%20soft%20morning%20light%2C%20subtle%20grain%2C%20photorealistic%2C%20high%20detail&image_size=landscape_4_3"
+    },
+    {
+      "id": "prd_aa8063e3-1f37-42e2-bbb9-0db0d187da31",
+      "stallId": "stl_6b1cb631-81d9-412f-8f55-3eb47b927aac",
+      "name": "Bayam (1 ikat)",
+      "categoryId": "sayur",
+      "price": 5000,
+      "unit": "ikat",
+      "stockQty": 40,
+      "isHidden": false,
+      "imageUrl": "https://coresg-normal.trae.ai/api/ide/v1/text_to_image?prompt=fresh%20spinach%20bundles%20tied%20with%20raffia%2C%20traditional%20market%20table%2C%20warm%20light%2C%20photorealistic%2C%20high%20detail&image_size=landscape_4_3"
+    }
+  ],
+  "orders": [
+    {
+      "id": "ord_512b602f-82bd-43d0-bfe6-479c08110924",
+      "buyerUserId": "usr_c256f608-3f54-4262-873c-3569183b881b",
+      "stallId": "stl_6b1cb631-81d9-412f-8f55-3eb47b927aac",
+      "status": "awaiting_payment",
+      "fulfillment": "pickup",
+      "totalAmount": 65000,
+      "paymentTo": "Belanjaku",
+      "createdAt": "2026-05-14T10:46:12.588Z"
+    },
+    {
+      "id": "ord_843b25b6-fb75-4aa4-93a5-b1f4cee05d96",
+      "buyerUserId": "usr_c256f608-3f54-4262-873c-3569183b881b",
+      "stallId": "stl_6b1cb631-81d9-412f-8f55-3eb47b927aac",
+      "status": "confirmed",
+      "fulfillment": "pickup",
+      "totalAmount": 65000,
+      "paymentTo": "Belanjaku",
+      "createdAt": "2026-05-14T10:52:54.920Z",
+      "paymentMethod": "Transfer Bank",
+      "paymentSenderName": "Raka",
+      "paymentReference": "TRX123",
+      "paidAt": "2026-05-14T10:52:54.928Z"
+    }
+  ],
+  "orderItems": [
+    {
+      "id": "oit_c0306ea8-0764-4753-9abe-3379d433ac5e",
+      "orderId": "ord_512b602f-82bd-43d0-bfe6-479c08110924",
+      "productId": "prd_226b6112-43e1-4501-9a6a-528d96ccd5e0",
+      "productNameSnapshot": "Cabai Rawit Merah",
+      "unitPriceSnapshot": 65000,
+      "qty": 1,
+      "unitSnapshot": "kg"
+    },
+    {
+      "id": "oit_e401c162-80d0-437a-a62b-86f6792171b9",
+      "orderId": "ord_843b25b6-fb75-4aa4-93a5-b1f4cee05d96",
+      "productId": "prd_226b6112-43e1-4501-9a6a-528d96ccd5e0",
+      "productNameSnapshot": "Cabai Rawit Merah",
+      "unitPriceSnapshot": 65000,
+      "qty": 1,
+      "unitSnapshot": "kg"
+    }
+  ]
+}

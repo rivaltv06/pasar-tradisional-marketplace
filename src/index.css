@@ -1,0 +1,63 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --bg: 45 38% 95%;
+  --card: 45 35% 97%;
+  --ink: 160 25% 12%;
+  --muted: 160 10% 32%;
+  --leaf: 148 38% 20%;
+  --chili: 6 78% 52%;
+  --turmeric: 44 92% 52%;
+
+  font-family: "Newsreader", ui-serif, Georgia, "Times New Roman", serif;
+  line-height: 1.5;
+  font-weight: 400;
+
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+html,
+body {
+  height: 100%;
+}
+
+body {
+  background:
+    radial-gradient(1000px 800px at 10% 10%, hsl(var(--turmeric) / 0.14), transparent 60%),
+    radial-gradient(900px 700px at 90% 10%, hsl(var(--chili) / 0.10), transparent 55%),
+    radial-gradient(900px 700px at 50% 110%, hsl(var(--leaf) / 0.12), transparent 60%),
+    linear-gradient(180deg, hsl(var(--bg)), hsl(var(--bg)) 40%, hsl(var(--bg) / 0.92));
+  color: hsl(var(--ink));
+}
+
+.font-display {
+  font-family: "Fraunces", ui-serif, Georgia, "Times New Roman", serif;
+}
+
+.paper {
+  background: hsl(var(--card));
+  border: 1px solid hsl(var(--ink) / 0.08);
+  box-shadow:
+    0 1px 0 hsl(var(--ink) / 0.06),
+    0 20px 60px hsl(var(--ink) / 0.08);
+}
+
+.grain {
+  position: relative;
+}
+
+.grain::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.06;
+  mix-blend-mode: multiply;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='180' height='180' filter='url(%23n)' opacity='.45'/%3E%3C/svg%3E");
+  border-radius: inherit;
+}
